@@ -1,10 +1,14 @@
 package com.example.myapplication.ui
 
+import androidx.databinding.DataBindingComponent
+import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.myapplication.R
 import com.example.myapplication.db.entities.Weather
@@ -20,7 +24,7 @@ import util.CountingAppExecutorsRule
 import util.TaskExecutorWithIdlingResourceRule
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class WeatherFragmentTest {
     @Rule
     @JvmField
     val executorRule = TaskExecutorWithIdlingResourceRule()
@@ -35,15 +39,20 @@ class MainActivityTest {
 
     @Before
     fun init() {
+        val scenario = launchFragmentInContainer<WeatherFragment>(themeResId = R.style.Theme_MyApplication)
+
         viewModel = mock(WeatherFragmentViewModel::class.java)
         `when`(viewModel.query).thenReturn(query)
         `when`(viewModel.weather).thenReturn(weather)
     }
 
     @Test
-    fun loading() {
+    fun rootViewIsDisplayed() {
+        onView(withId(R.id.srl)).check(matches(isDisplayed()))
+    }
 
-
+    @Test
+    fun showsProgressViewsWhenLoadingWeatherData() {
         query.postValue("Sydney")
         onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_temperature)).check(matches(not(isDisplayed())))
