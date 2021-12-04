@@ -19,33 +19,35 @@ import org.mockito.Mockito.mock
 import util.CountingAppExecutorsRule
 import util.TaskExecutorWithIdlingResourceRule
 
-//@RunWith(AndroidJUnit4::class)
-//class MainActivityTest {
-//    @Rule
-//    @JvmField
-//    val executorRule = TaskExecutorWithIdlingResourceRule()
-//
-//    @Rule
-//    @JvmField
-//    val countingAppExecutors = CountingAppExecutorsRule()
-//
-//    private lateinit var viewModel: MainActivityViewModel
-//    private val query = MutableLiveData<String>()
-//    private val weather = MutableLiveData<Resource<Weather>>()
+@RunWith(AndroidJUnit4::class)
+class MainActivityTest {
+    @Rule
+    @JvmField
+    val executorRule = TaskExecutorWithIdlingResourceRule()
 
-//    @Before
-//    fun init() {
-//        viewModel = mock(MainActivityViewModel::class.java)
-//        `when`(viewModel.query).thenReturn(query)
-//        `when`(viewModel.weather).thenReturn(weather)
-//    }
-//
-//    @Test
-//    fun loading() {
-//        query.postValue("Sydney")
-//        onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
-//        onView(withId(R.id.tv_temperature)).check(matches(not(isDisplayed())))
-//        onView(withId(R.id.tv_wind)).check(matches(not(isDisplayed())))
-//        onView(withId(R.id.tv_city)).check(matches(not(isDisplayed())))
-//    }
-//}
+    @Rule
+    @JvmField
+    val countingAppExecutors = CountingAppExecutorsRule()
+
+    private lateinit var viewModel: WeatherFragmentViewModel
+    private val query = MutableLiveData<String>()
+    private val weather = MutableLiveData<Resource<Weather>>()
+
+    @Before
+    fun init() {
+        viewModel = mock(WeatherFragmentViewModel::class.java)
+        `when`(viewModel.query).thenReturn(query)
+        `when`(viewModel.weather).thenReturn(weather)
+    }
+
+    @Test
+    fun loading() {
+
+
+        query.postValue("Sydney")
+        onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_temperature)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.tv_wind)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.tv_city)).check(matches(not(isDisplayed())))
+    }
+}

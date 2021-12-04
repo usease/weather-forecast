@@ -6,7 +6,7 @@ import com.example.myapplication.db.entities.Weather
 import com.example.myapplication.network.model.Resource
 import com.example.myapplication.utils.AbsentLiveData
 
-open class MainActivityViewModel(private val repo: WeatherRepository): ViewModel() {
+class WeatherFragmentViewModel(private val repo: WeatherRepository): ViewModel() {
     private val _query = MutableLiveData<String>()
     val query: LiveData<String>
         get() = _query
